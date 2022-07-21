@@ -10,7 +10,7 @@ export const runGame = () => {
     const computerBoard = gameBoard()
 
     const userBoardShips = userBoard.getShipList();
-    const computerBoardShips = userBoard.getShipList();
+    const computerBoardShips = computerBoard.getShipList();
 
     createDomBoard();
 
@@ -48,19 +48,25 @@ export const runTurn = (playerInput, player1, player2) => {
     let gameOver = false
     let playerAttack = parseInt(playerInput)
     console.log(playerAttack)
-    let isCpuHit = player2.recieveAttack(playerAttack);
-    if (isCpuHit != 'miss') {
-        console.log(`Player: ${playerInput} is a hit`)
-        //In the future, run some domFunction here print hit
-    }
+    player2.recieveAttack(playerAttack);
+    // if (isCpuHit != 'miss') {
+    //     console.log(`Player: ${playerInput} is a hit`)
+    //     //In the future, run some domFunction here print hit
+    // }
     updateCpuBoard(player2)
-    if (player2.allSunk()) gameOver = true
+    if (player2.allSunk()) {
+        gameOver = true
+        console.log("Wow. You actually managed to win.")
+    }
     if(!gameOver) {
         turnUpdate('CPU')
+        //if can write without parenthesis it will work
         setTimeout(cpuAttack(player1, player2), 1000)
     }
     if (player1.allSunk()) {
         gameOver = true
+        console.log("You lose!")
+        console.log("Loser")
     } else {
         turnUpdate('Player 1')
     }
