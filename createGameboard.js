@@ -56,7 +56,7 @@ export const gameBoard = () => {
             for (let i = 0; i < coordNum - 1; i++) {
                 tempArr.push(tempArr[i] + increment)
             }
-        } while (_shipCoordCheck(tempArr))
+        } while (_shipCoordCheck(tempArr, increment))
         return tempArr;
     }
 
@@ -73,7 +73,7 @@ export const gameBoard = () => {
     //if none there attack that square
     //make function called by gameFunction that pushes attacks to an attack arr and pushes hits to hit arr
 
-    const _shipCoordCheck = (arr) => {
+    const _shipCoordCheck = (arr, increment) => {
         let returnValue = false
         for (let i = 0; i < arr.length; i++) {
             let coord = arr[i]
@@ -81,7 +81,37 @@ export const gameBoard = () => {
                 returnValue = true
             }
         }
+        if (returnValue === false && increment === 1)  {
+            returnValue = _horizontalCheck(arr)
+        }
         return returnValue
+    }
+
+    const _horizontalCheck = (arr) => {
+        //maybe do this with regex
+        if (arr[0] > 0 && arr[0] <= 9 && arr[arr.length - 1] > 9) {
+            return true
+        } else if (arr[0] > 9 && arr[0] <= 19 && arr[arr.length - 1] > 19) {
+            return true
+        } else if (arr[0] > 19 && arr[0] <= 29 && arr[arr.length - 1] > 29) {
+            return true 
+        } else if (arr[0] > 29 && arr[0] <= 39 && arr[arr.length - 1] > 39) {
+            return true
+        } else if (arr[0] > 39 && arr[0] <= 49 && arr[arr.length - 1] > 49) {
+            return true
+        } else if (arr[0] > 49 && arr[0] <= 59 && arr[arr.length - 1] > 59) {
+            return true
+        } else if (arr[0] > 59 && arr[0] <= 69 && arr[arr.length - 1] > 69) {
+            return true
+        } else if (arr[0] > 69 && arr[0] <= 79 && arr[arr.length - 1] > 79) {
+            return true
+        } else if (arr[0] > 79 && arr[0] <= 89 && arr[arr.length - 1] > 89) {
+            return true
+        } else if (arr[0] > 89 && arr[0] <= 99 && arr[arr.length - 1] > 99) {
+            return true
+        } else {
+            return false
+        }
     }
 
     const _randomSelector = () => {
