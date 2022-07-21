@@ -1,4 +1,4 @@
-import { shipYard } from "./shipYard"
+import { shipYard } from "./shipYard.js"
 
 export const gameBoard = () => {
     const _boardArr = []
@@ -68,6 +68,11 @@ export const gameBoard = () => {
         return startCoord;
     }
 
+    //create smarter attack function
+    // if player hit arr length > 0, check top bottom left right of last coord in prior attack arr
+    //if none there attack that square
+    //make function called by gameFunction that pushes attacks to an attack arr and pushes hits to hit arr
+
     const _shipCoordCheck = (arr) => {
         let returnValue = false
         for (let i = 0; i < arr.length; i++) {
@@ -84,6 +89,8 @@ export const gameBoard = () => {
     }
 
     const recieveAttack = (coordinate) => {
+        //make some way of checking if input has been entered
+        //if (_hitArr.includes(coordinate) || _missArr.includes(coordinate)) return 'again'
         if (_shipCoords.includes(coordinate)) {
             _hitArr.push(coordinate)
             let hitShip
@@ -95,9 +102,11 @@ export const gameBoard = () => {
             })
             hitShip.hit(coordinate)
             _sinkCheck(hitShip)
+            //make way to name ship and return name in _sinkCheck - maybe fire some dom function
             return hitShip
         } else {
             _missArr.push(coordinate)
+            return 'miss'
         }
     }
 
@@ -129,6 +138,10 @@ export const gameBoard = () => {
         return _shipArr
     }
 
+    const getCoords = () => {
+        return _shipCoords
+    }
+
 
     //some funciton to check if all ships have coords set
 
@@ -142,6 +155,7 @@ export const gameBoard = () => {
         getHit,
         allSunk,
         getSunk,
-        getShipList
+        getShipList,
+        getCoords
     }
 }
