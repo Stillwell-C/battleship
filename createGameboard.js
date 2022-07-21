@@ -77,7 +77,7 @@ export const gameBoard = () => {
         let returnValue = false
         for (let i = 0; i < arr.length; i++) {
             let coord = arr[i]
-            if (_shipCoords.includes(coord) || coord < 0 || coord > 100) {
+            if (_shipCoords.includes(coord) || coord < 0 || coord > 99) {
                 returnValue = true
             }
         }
@@ -127,7 +127,7 @@ export const gameBoard = () => {
             _shipArr.forEach(ship => {
                 let coords = ship.getCoords()
                 if (coords.includes(coordinate)) {
-                    hitShip = ship
+                    return hitShip = ship
                 }
             })
             hitShip.hit(coordinate)
