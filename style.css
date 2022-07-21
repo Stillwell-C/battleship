@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-container,
+.board-container,
+.bottom-container {
+    flex-grow: 1;
+}
+
+.board-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+.left-board-container,
+.right-board-container {
+    width: 400px;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: .1rem;
+}
+
+div[class*="board-div"] {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+}
+
+.player-board-div.ship {
+    background-color: grey;
+}
+
+div[class*="board-div"].hit {
+    background-color: red;
+}
+
+div[class*="board-div"].miss {
+    background-color: aqua;
+}
+
+.cpu-board-div:hover {
+    background-color: darkred;
+}
