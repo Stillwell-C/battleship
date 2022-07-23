@@ -65,3 +65,23 @@ const boardUpdater = (board, boardDivs) => {
         }
     })
 }
+
+export const displayWinner = (winner) => {
+    const turnDisplay = document.getElementById('turn-display')
+    const infoDisplay = document.getElementById('info-display')
+    turnDisplay.innerText = ''
+    infoDisplay.innerText = ''
+    turnDisplay.innerText = `${winner} wins!`
+    if (winner === 'Player 1') {
+        infoDisplay.innerText = 'Good job sport. You managed to win.'
+    } else {
+        infoDisplay.innerText = 'Wipe your tears loser'
+    }
+}
+
+export const eraseBoards = () => {
+    const cpuBoardDivs = [...document.getElementsByClassName('cpu-board-div')]
+    const playerBoardDivs = [...document.getElementsByClassName('player-board-div')]
+    const boardDivs = [...cpuBoardDivs, ...playerBoardDivs]
+    boardDivs.forEach(div => div.remove())
+}
