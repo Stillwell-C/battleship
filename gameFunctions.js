@@ -1,5 +1,5 @@
 import { gameBoard } from "./createGameboard.js";
-import { createDomBoard, playerShipDisplay, turnUpdate, updateCpuBoard, updatePlayerBoard } from "./domFunctions.js";
+import { createDomBoard, playerShipDisplay, turnUpdate, updateCpuBoard, updatePlayerBoard, displayWinner, eraseBoards } from "./domFunctions.js";
 import { createPlayer } from "./createPlayer.js";
 
 export const runGame = () => {
@@ -49,14 +49,11 @@ export const runTurn = (playerInput, player1, player2) => {
     let playerAttack = parseInt(playerInput)
     console.log(playerAttack)
     player2.recieveAttack(playerAttack);
-    // if (isCpuHit != 'miss') {
-    //     console.log(`Player: ${playerInput} is a hit`)
-    //     //In the future, run some domFunction here print hit
-    // }
     updateCpuBoard(player2)
     if (player2.allSunk()) {
         gameOver = true
-        console.log("Wow. You actually managed to win.")
+        displayWinner('Player 1')
+        gameOverFunction()
     }
     if(!gameOver) {
         turnUpdate('CPU')
@@ -65,8 +62,8 @@ export const runTurn = (playerInput, player1, player2) => {
     }
     if (player1.allSunk()) {
         gameOver = true
-        console.log("You lose!")
-        console.log("Loser")
+        displayWinner('CPU')
+        gameOverFunction()
     } else {
         turnUpdate('Player 1')
     }
@@ -83,13 +80,20 @@ const cpuAttack = (player1, player2) => {
     updatePlayerBoard(player1)
 }
 
-const printWinner = (player1, player2) => {
-    if (player1.allSunk()) {
-        console.log("You lose!")
-        console.log("Loser")
+const gameOverFunction = () => {
+    const cpuBoardDivs = document.getElementsByClassName('cpu-board-div')
+    const buttonContainer = document.getElementById('button-container')
+    for (let i = 0; i < 100; i++) {
+        cpuBoardDivs[i].removeEventListener('click', () => {
+            runTurn(i, userBoard, computerBoard)
+        }, false)
     }
-    if (player2.allSunk()) {
-        console.log("Wow. You actually managed to win.")
-    }
-    //later make this call a dom function
+    const restartButton = document.createElement('button')
+    restartButton.classList.add('restart-button')
+    restartButton.innerText = 'Play Again'
+    restartButton.addEventListener('click', () => {
+        eraseBoards()
+        runGame()
+    })
+    buttonContainer.appendChild(restartButton)
 }
