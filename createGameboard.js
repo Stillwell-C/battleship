@@ -68,10 +68,6 @@ export const gameBoard = () => {
         return startCoord;
     }
 
-    //create smarter attack function
-    // if player hit arr length > 0, check top bottom left right of last coord in prior attack arr
-    //if none there attack that square
-    //make function called by gameFunction that pushes attacks to an attack arr and pushes hits to hit arr
 
     const _shipCoordCheck = (arr, increment) => {
         let returnValue = false
@@ -119,8 +115,6 @@ export const gameBoard = () => {
     }
 
     const recieveAttack = (coordinate) => {
-        //make some way of checking if input has been entered
-        //if (_hitArr.includes(coordinate) || _missArr.includes(coordinate)) return 'again'
         if (_shipCoords.includes(coordinate)) {
             _hitArr.push(coordinate)
             let hitShip
@@ -131,17 +125,23 @@ export const gameBoard = () => {
                 }
             })
             hitShip.hit(coordinate)
-            _sinkCheck(hitShip)
-            //make way to name ship and return name in _sinkCheck - maybe fire some dom function
-            return hitShip
+            if (_sinkCheck(hitShip)) {
+                return _shipArr.indexOf(hitShip)
+            }
+            return 
         } else {
             _missArr.push(coordinate)
-            return 'miss'
+            return -2
         }
     }
 
     const _sinkCheck = (ship) => {
-        if (ship.isSunk()) _sunkArr.push(ship)
+        if (ship.isSunk()) {
+            _sunkArr.push(ship)
+            return true
+        } else {
+            return false
+        }
     }
 
     const getMiss = () => {
@@ -172,8 +172,6 @@ export const gameBoard = () => {
         return _shipCoords
     }
 
-
-    //some funciton to check if all ships have coords set
 
     return {
         getBoardArr,
