@@ -48,6 +48,37 @@ export const updatePlayerBoard = (playerBoard) => {
     boardUpdater(playerBoard, playerBoardDivs)
 }
 
+export const updateHit = (player, hit) => {
+    const playerBoardInfo = document.getElementById('player-info-display')
+    const cpuBoardInfo = document.getElementById('cpu-info-display')
+    if (hit === 1) {
+        if (player === 'user') {
+            cpuBoardInfo.innerText = "Hit"
+        } else {
+            playerBoardInfo.innerText = "Hit"
+        }
+    } else {
+        if (player === 'user') {
+            cpuBoardInfo.innerText = "Miss"
+        } else {
+            playerBoardInfo.innerText = "Miss"
+        }
+    }
+}
+
+export const updateSink = (player, ship) => {
+    const playerBoardInfo = document.getElementById('player-info-display')
+    const cpuBoardInfo = document.getElementById('cpu-info-display')
+    if (ship === -1) {
+        console.log('Error. Ship not found in index')
+    }
+    if (player === 'user') {
+        cpuBoardInfo.innerText = `You sunk CPU's ${ship}`
+    } else {
+        playerBoardInfo.innerText = `CPU sunk your ${ship}`
+    }
+}
+
 const boardUpdater = (board, boardDivs) => {
     const hits = board.getHit();
     const misses = board.getMiss();
@@ -84,4 +115,12 @@ export const eraseBoards = () => {
     const playerBoardDivs = [...document.getElementsByClassName('player-board-div')]
     const boardDivs = [...cpuBoardDivs, ...playerBoardDivs]
     boardDivs.forEach(div => div.remove())
+    clearHits()
+}
+
+const clearHits = () => {
+    const playerBoardInfo = document.getElementById('player-info-display')
+    const cpuBoardInfo = document.getElementById('cpu-info-display')
+    cpuBoardInfo.innerText = ""
+    playerBoardInfo.innerText = ""
 }
