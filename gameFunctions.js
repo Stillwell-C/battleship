@@ -1,6 +1,5 @@
 import { gameBoard } from "./createGameboard.js";
-import { createDomBoard, playerShipDisplay, turnUpdate, updateCpuBoard, updatePlayerBoard, displayWinner, eraseBoards } from "./domFunctions.js";
-import { createPlayer } from "./createPlayer.js";
+import { createDomBoard, playerShipDisplay, turnUpdate, updateCpuBoard, updatePlayerBoard, displayWinner, eraseBoards, updateSink, updateHit } from "./domFunctions.js";
 
 export const runGame = () => {
     // const user = createPlayer();
@@ -28,27 +27,34 @@ export const runGame = () => {
 
 const placeShips = (board, shipArr) => {
     const coordArr1 = board.coordGenerator(5)
-    console.log(`1: ${coordArr1}`)
     board.placeShip(shipArr[0], coordArr1)
     const coordArr2 = board.coordGenerator(4)
-    console.log(`2: ${coordArr2}`)
     board.placeShip(shipArr[1], coordArr2)
     const coordArr3 = board.coordGenerator(3)
-    console.log(`3: ${coordArr3}`)
     board.placeShip(shipArr[2], coordArr3)
     const coordArr4 = board.coordGenerator(3)
-    console.log(`4: ${coordArr4}`)
     board.placeShip(shipArr[3], coordArr4)
     const coordArr5 = board.coordGenerator(2)
-    console.log(`5: ${coordArr5}`)
     board.placeShip(shipArr[4], coordArr5)
 }
 
 export const runTurn = (playerInput, player1, player2) => {
     let gameOver = false
-    let playerAttack = parseInt(playerInput)
-    console.log(playerAttack)
-    player2.recieveAttack(playerAttack);
+    let isCpuHit = player2.recieveAttack(playerInput);
+    if (isCpuHit >= -1 && isCpuHit <= 5) {
+        console.log(`Player 1 Sink: ${isCpuHit}`)
+        let hitCoords = player2.getHit()
+        let sortCoords = hitCoords.sort((a,b) => a - b)
+        console.log(sortCoords)
+        console.log(player2.getSunk())
+        let shipName = decodeHit(isCpuHit)
+        updateSink('user', shipName)
+    } else if (isCpuHit != -2) {
+        updateHit('user', 1)
+    }
+    if (isCpuHit === -2) {
+        updateHit('user', -1)
+    }
     updateCpuBoard(player2)
     if (player2.allSunk()) {
         gameOver = true
@@ -57,8 +63,23 @@ export const runTurn = (playerInput, player1, player2) => {
     }
     if(!gameOver) {
         turnUpdate('CPU')
-        //if can write without parenthesis it will work
-        setTimeout(cpuAttack(player1, player2), 1000)
+        let cpuAttack = generateCPUAttack(player1)
+        let isPlayerHit = player1.recieveAttack(cpuAttack)
+        if (isPlayerHit >= -1 && isPlayerHit <= 5) {
+            console.log(`Player 2 Sink: ${isPlayerHit}`)
+            let hitCoords = player1.getHit()
+            let sortCoords = hitCoords.sort((a,b) => a - b)
+            console.log(sortCoords)
+            console.log(player1.getSunk())
+            let shipName = decodeHit(isPlayerHit)
+            updateSink('CPU', shipName)
+        } else if (isPlayerHit != -2) {
+            updateHit('CPU', 1)
+        }
+        if (isPlayerHit === -2) {
+            updateHit('CPU', -1)
+        }
+        updatePlayerBoard(player1)
     }
     if (player1.allSunk()) {
         gameOver = true
@@ -69,15 +90,6 @@ export const runTurn = (playerInput, player1, player2) => {
     }
     //make a gameover function to handle each of these - update dom and remove event listeners from player-board-div
     //update screen
-}
-
-const cpuAttack = (player1, player2) => {
-    let cpuAttack = player2.genSingleCoord()
-    let isPlayerHit = player1.recieveAttack(cpuAttack)
-    if (isPlayerHit != 'miss') {
-        console.log(`CPU: ${cpuAttack} is a hit`)
-    }
-    updatePlayerBoard(player1)
 }
 
 const gameOverFunction = () => {
@@ -96,4 +108,32 @@ const gameOverFunction = () => {
         runGame()
     })
     buttonContainer.appendChild(restartButton)
+}
+
+const decodeHit = (shipIndex) => {
+    if (shipIndex === -1) {
+        return -1
+    } else if (shipIndex === 0) {
+        return 'Carrier'
+    } else if (shipIndex === 1) {
+        return 'Battleship'
+    } else if (shipIndex === 2) {
+        return 'Cruiser'
+    } else if (shipIndex === 3) {
+        return 'Submarine'
+    } else if (shipIndex === 4) {
+        return 'Destroyer'
+    }
+}
+
+const generateCPUAttack = (opponent) => {
+    const opponentHit = opponent.getHit()
+    const opponentMiss = opponent.getMiss()
+    const attackArr = [...opponentHit, ...opponentMiss]
+    let attackCoord = -1
+    while (attackCoord < 0 || attackArr.includes(attackCoord)) {
+        attackCoord = (Math.floor(Math.random() * 100))
+    }
+    return attackCoord;
+
 }
