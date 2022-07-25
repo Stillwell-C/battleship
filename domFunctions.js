@@ -115,12 +115,16 @@ export const eraseBoards = () => {
     const playerBoardDivs = [...document.getElementsByClassName('player-board-div')]
     const boardDivs = [...cpuBoardDivs, ...playerBoardDivs]
     boardDivs.forEach(div => div.remove())
-    clearHits()
+    clearText()
 }
 
-const clearHits = () => {
+const clearText = () => {
     const playerBoardInfo = document.getElementById('player-info-display')
     const cpuBoardInfo = document.getElementById('cpu-info-display')
+    const turnDisplay = document.getElementById('turn-display')
+    const infoDisplay = document.getElementById('info-display')
     cpuBoardInfo.innerText = ""
     playerBoardInfo.innerText = ""
+    turnDisplay.innerText = ""
+    infoDisplay.innerText = ""
 }
