@@ -1,5 +1,3 @@
-import { createPlayer } from "./createPlayer"
-import { gameBoard } from "./createGameboard"
-import { runGame } from "./gameFunctions";
+import { runGame } from "./gameFunctions.js";
 
 runGame()
