@@ -5,19 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
+    <script src="main.js" type="module"></script>
     <title>Baʔle Ship</title>
 </head>
 <body>
     <div class="main-container">
+        <div class="top-container">
+            <h1>Baʔle Ship</h1>
 
+            <h2 id="turn-display"></h2>
+            <h3 id="info-display"></h3>
+        </div>
         <div class="board-container">
             <div class="left-board">
                 <h2>Player Board</h2>
+                <h3 id="player-info-display"></h3>
+                <div class="left-board-container" id="left-board-container"></div>
             </div>
             <div class="right-board">
                 <h2>CPU Board</h2>
+                <h3 id="cpu-info-display"></h3>
+                <div class="right-board-container" id="right-board-container"></div>
             </div>
+        </div>
+        <div class="bottom-container">
+            <div id="button-container"></div>
+
         </div>
     </div>
 </body>
