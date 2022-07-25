@@ -88,8 +88,6 @@ export const runTurn = (playerInput, player1, player2) => {
     } else {
         turnUpdate('Player 1')
     }
-    //make a gameover function to handle each of these - update dom and remove event listeners from player-board-div
-    //update screen
 }
 
 const gameOverFunction = () => {
@@ -130,10 +128,70 @@ const generateCPUAttack = (opponent) => {
     const opponentHit = opponent.getHit()
     const opponentMiss = opponent.getMiss()
     const attackArr = [...opponentHit, ...opponentMiss]
+    if (opponentHit.length >= 1) {
+        let lastHit = opponentHit[(opponentHit.length - 1)]
+        let tosort = [...opponentHit]
+        let sortedArr = tosort.sort((a, b) => a - b)
+        let lastHitPos = sortedArr.indexOf(lastHit)
+        
+        console.log(Array.isArray(opponentHit))
+        console.log('Hitarr: ')
+        console.log(opponentHit)
+        console.log(`Hitarr length = ${opponentHit.length}`)
+        console.log('LastHit: ' + lastHit)
+        console.log('sortedarr: ')
+        console.log(sortedArr)
+        console.log('lastHit pos: ' + lastHitPos)
+        //if can find pattern
+        //horizontal
+        if (sortedArr[lastHitPos - 1] === lastHit - 1) {
+            if (!attackArr.includes(lastHit - 2) && lastHit - 2 >= 0) {
+                return lastHit - 2
+            } else if (!attackArr.includes(lastHit + 1) && lastHit + 1 < 100) {
+                return lastHit + 1
+            }
+        } else if (sortedArr[lastHitPos + 1] === lastHit + 1) {
+            if (!attackArr.includes(lastHit + 2) && lastHit + 2 < 100) {
+                return lastHit + 2
+            } else if (!attackArr.includes(lastHit - 1) && lastHit - 1 >= 0) {
+                return lastHit - 1
+            }
+        }
+        //vertical
+        if (sortedArr[lastHitPos - 1] === lastHit - 10) {
+            if (!attackArr.includes(lastHit - 20) && lastHit - 20 >= 0) {
+                return lastHit - 20
+            } else if (!attackArr.includes(lastHit + 10) && lastHit + 10 < 100) {
+                return lastHit + 10
+            }
+        } else if (sortedArr[lastHitPos + 1] === lastHit + 10) {
+            if (!attackArr.includes(lastHit + 20) && lastHit + 20 < 100) {
+                return lastHit + 20
+            } else if (!attackArr.includes(lastHit - 10) && lastHit - 10 >= 0) {
+                return lastHit - 10
+            }
+        }
+
+
+
+        //if no pattern
+        if (!attackArr.includes(lastHit - 1) && lastHit - 1 >= 0) {
+            return lastHit - 1
+        } else if (!attackArr.includes(lastHit - 10) && lastHit - 10 >= 0) {
+            return lastHit - 10
+        } else if (!attackArr.includes(lastHit + 1) && lastHit + 1 < 100) {
+            return lastHit + 1
+        } else if (!attackArr.includes(lastHit + 10) && lastHit + 10 < 100) {
+            return lastHit + 10
+        }
+    }
+    return generateRandomAttack(attackArr)
+}
+
+const generateRandomAttack = (attackArr) => {
     let attackCoord = -1
     while (attackCoord < 0 || attackArr.includes(attackCoord)) {
         attackCoord = (Math.floor(Math.random() * 100))
     }
     return attackCoord;
-
 }
