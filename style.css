@@ -17,6 +17,31 @@
     flex-grow: 1;
 }
 
+.top-container > h1 {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.top-container > h2,
+.top-container > h3 {
+    height: 2rem;
+    text-align: center;
+}
+
+.board-container h2 {
+    margin-top: .75rem;
+}
+
+.board-container h3 {
+    color: red;
+}
+
+.board-container h2,
+.board-container h3 {
+    text-align: center;
+    height: 1.5rem;
+}
+
 .board-container {
     display: flex;
     justify-content: space-around;
@@ -56,4 +81,20 @@ div[class*="board-div"].miss {
 
 .cpu-board-div:hover {
     background-color: darkred;
+    cursor: pointer;
+}
+
+#button-container > button {
+    cursor: pointer;
+    padding: 7px 15px;
+    margin-top: 2rem;
+    color: white;
+    background-color: #4681f4;
+    border: 1px solid #4681f4;
+    outline: none;
+    border-radius: .25rem;
+}
+
+#button-container > button:hover {
+    background-color: rgb(36, 160, 237);
 }
